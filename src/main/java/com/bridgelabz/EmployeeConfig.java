@@ -23,7 +23,7 @@ public class EmployeeConfig {
      * @return returning connection Object.
      */
 
-    public Connection getConfig() {
+    public static Connection getConfig() {
         try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         System.out.println("Drivers loaded!!");
