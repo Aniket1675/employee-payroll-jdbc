@@ -1,9 +1,7 @@
 package com.bridgelabz;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
 public class EmployeePayRollService {
     public ArrayList<Employee> empList;
     PreparedStatement preparedStatement;
-    Connection connection =EmployeeConfig.getConfig();
+    Connection connection = EmployeeConfig.getConfig();
 
     public List<Employee> queryExecute(String query) {
         empList = new ArrayList<>();
@@ -58,7 +56,7 @@ public class EmployeePayRollService {
     }
 
     public double updateBasicPay(String empName, double basicPay) {
-        String UPDATE = "UPDATE employee_payroll SET Basic_Pay = ? WHERE name = ?";
+        String UPDATE = "UPDATE employee_payroll SET BasicPay = ? WHERE EmpName = ?";
         try {
             preparedStatement = connection.prepareStatement(UPDATE);
             preparedStatement.setDouble(1, basicPay);
@@ -76,5 +74,41 @@ public class EmployeePayRollService {
             }
         }
         return 0.0;
+    }
+
+    public void selectEmployee(LocalDate start, LocalDate end){
+        ArrayList<Employee> empSelected = new ArrayList<>();
+        String select = "SELECT * FROM employee_payroll WHERE EmpStart BETWEEN ? AND ?";
+        String sDate = String.valueOf(start);
+        String eDate = String.valueOf(end);
+        try {
+            preparedStatement = connection.prepareStatement(select);
+            preparedStatement.setString(1,sDate);
+            preparedStatement.setString(2, eDate);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Employee employee = new Employee();
+                employee.setEmpId(resultSet.getInt("id"));
+                employee.setEmpName(resultSet.getString("name"));
+                employee.setPhoneNumber(resultSet.getString("Salary"));
+                employee.setEmpStart(resultSet.getString("Start_Date"));
+                employee.setGender(resultSet.getString("Gender"));
+                employee.setPhoneNumber(resultSet.getString("Phone"));
+                employee.setAddress(resultSet.getString("Address"));
+                employee.setBasicPay(resultSet.getDouble("Basic_Pay"));
+                employee.setDeductions(resultSet.getDouble("Deductions"));
+                employee.setTaxablePay(resultSet.getDouble("Taxable_Pay"));
+                employee.setIncomeTax(resultSet.getDouble("Income_Tax"));
+                employee.setNetPay(resultSet.getDouble("Net_Pay"));
+
+                empList.add(employee);
+            }
+            for (Employee employee:empSelected) {
+                System.out.println(employee);
+            }
+
+        } catch (SQLException e) {
+            throw new EmployeeException("Invalid date");
+        }
     }
 }

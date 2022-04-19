@@ -1,9 +1,10 @@
 package com.bridgelabz;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
- * Purpose: Class Employee Payroll for perform queries.
+ * Purpose: Class EmployeePayRoll
  *
  * @author Aniket Kumbhar
  * @version 1.0
@@ -19,9 +20,11 @@ public class EmployeePayRoll {
         final int EXIT = 10;
         int choice = 0;
         while (choice != EXIT) {
-            System.out.println("enter your choice\n1. Execute query\n2. update basic pay\n3. display employee roll\n10. EXIT");
+            System.out.println("enter your choice\n1. Execute query\n2. update basic pay\n3. display employee roll" +
+                    "\n4. select range of employee\n0. EXIT\n");
             choice = scanner.nextInt();
             switch (choice) {
+                case 0 : System.out.println("good bye");
                 case 1 : {
                     String query = "select * from employee_payroll";
                     employeePayRollService.queryExecute(query);
@@ -35,7 +38,14 @@ public class EmployeePayRoll {
                     employeePayRollService.updateBasicPay(empName, basicPay);
                 }
                 case 3 : employeePayRollService.display();
-                case 10: System.out.println("good bye");
+                case 4 : {
+                    System.out.println("enter initial date");
+                    LocalDate iDate = LocalDate.parse(scanner.next());
+                    System.out.println("enter final date");
+                    LocalDate eDate = LocalDate.parse(scanner.next());
+                    employeePayRollService.selectEmployee(iDate,eDate);
+                }
+
             }
         }
     }
