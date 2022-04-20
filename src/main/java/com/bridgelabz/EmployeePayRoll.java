@@ -40,10 +40,10 @@ public class EmployeePayRoll {
 
                 case 4:
                     System.out.println("enter initial date");
-                    LocalDate iDate = LocalDate.parse(scanner.next());
+                    LocalDate initialDate = LocalDate.parse(scanner.next());
                     System.out.println("enter final date");
-                    LocalDate eDate = LocalDate.parse(scanner.next());
-                    employeePayRollService.getEmployee(iDate, eDate);
+                    LocalDate endDate = LocalDate.parse(scanner.next());
+                    employeePayRollService.getEmployee(initialDate, endDate);
                     break;
 
                 case 5:
