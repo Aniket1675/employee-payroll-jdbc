@@ -101,12 +101,12 @@ public class EmployeePayRollService {
     public void getEmployee(LocalDate start, LocalDate end) {
         ArrayList<Employee> empSelected = new ArrayList<>();
         String select = "SELECT * FROM employee_payroll WHERE EmpStart BETWEEN ? AND ?";
-        String sDate = String.valueOf(start);
-        String eDate = String.valueOf(end);
+        String startDate = String.valueOf(start);
+        String endDate = String.valueOf(end);
         try {
             preparedStatement = connection.prepareStatement(select);
-            preparedStatement.setString(1, sDate);
-            preparedStatement.setString(2, eDate);
+            preparedStatement.setString(1, startDate);
+            preparedStatement.setString(2, endDate);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Employee employee = new Employee();
